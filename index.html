@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Iscas artesanais feitas à mão para pesca. Dicas e produtos para sua próxima pescaria!">
+    <title>Isca Artesanal - Feito à Mão, Peixe na Mão</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Cabeçalho */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #8B4513;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .fixed-header.scrolled {
+            background-color: #704214;
+        }
+
+        .logo {
+            opacity: 0;
+            animation: logo-appear 1.5s ease-out forwards;
+        }
+
+        .logo-img {
+            max-width: 300px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px;
+            transition: transform 0.5s ease;
+        }
+
+        .logo-img:hover {
+            transform: rotate(5deg);
+        }
+
+        .logo p {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: 1.2em;
+            color: #D2B48C;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #FFF;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 5px 10px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #D2B48C;
+        }
+
+        /* Seção Loja */
+        .loja {
+            padding: 150px 20px 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #FFF 0%, #F5F5F5 100%);
+        }
+
+        .loja h2 {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: 3em;
+            color: #8B4513;
+            margin-bottom: 30px;
+            opacity: 0;
+        }
+
+        .capa-loja {
+            position: relative;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .capa-img {
+            width: 100%;
+            max-height: 600px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .capa-loja:hover .capa-img {
+            transform: scale(1.05);
+        }
+
+        .capa-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(139, 69, 19, 0.7);
+            color: #FFF;
+            padding: 20px;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .capa-loja:hover .capa-overlay {
+            opacity: 1;
+        }
+
+        .produtos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .produto {
+            background-color: #FAF0E6;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            opacity: 0;
+        }
+
+        .produto.visible {
+            opacity: 1;
+        }
+
+        .produto:hover {
+            transform: translateY(-10px);
+        }
+
+        .produto img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .produto-info h3 {
+            font-size: 1.2em;
+            color: #8B4513;
+            margin-bottom: 5px;
+        }
+
+        .produto-info p {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .preco {
+            font-weight: 700;
+            color: #2E8B57;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(45deg, #25D366, #1DA851);
+            color: #FFF;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 700;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-whatsapp:hover {
+            transform: scale(1.1);
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Seção Blog */
+        .blog {
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%);
+            text-align: center;
+        }
+
+        .blog h2 {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: 2.5em;
+            color: #8B4513;
+            margin-bottom: 30px;
+            opacity: 0;
+        }
+
+        .artigos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .artigo {
+            background-color: #FFF;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .artigo.visible {
+            opacity: 1;
+        }
+
+        .artigo:hover {
+            transform: translateY(-5px);
+        }
+
+        .artigo img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .artigo-content {
+            padding: 15px;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .artigo-content h3 {
+            font-size: 1.2em;
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+
+        .artigo-content p {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .leia-mais {
+            color: #2E8B57;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 5px 10px;
+            border: 2px solid #2E8B57;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .leia-mais:hover {
+            background-color: #2E8B57;
+            color: #FFF;
+        }
+
+        /* Rodapé */
+        footer {
+            background: linear-gradient(135deg, #8B4513 0%, #704214 100%);
+            color: #FFF;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer a {
+            color: #D2B48C;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #FFF;
+        }
+
+        .social-icons a {
+            font-size: 1.5em;
+            margin: 0 10px;
+            color: #D2B48C;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            transform: scale(1.2);
+        }
+
+        /* Botão WhatsApp Fixo */
+        .whatsapp-fixed {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: #FFF;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-fixed:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animações */
+        .animate-slide-in {
+            animation: slide-in 1s ease-out forwards;
+        }
+
+        .animate-slide-up {
+            animation: slide-up 1s ease-out forwards;
+        }
+
+        .animate-fade-in {
+            animation: fade-in 1s ease-out forwards;
+        }
+
+        @keyframes slide-in {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slide-up {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes logo-appear {
+            0% { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+            50% { opacity: 0.7; transform: scale(1.1) rotate(5deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .produtos, .artigos {
+                grid-template-columns: 1fr;
+            }
+
+            .logo-img {
+                max-width: 200px;
+            }
+
+            .capa-img {
+                max-height: 400px;
+            }
+
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho Fixo -->
+    <header class="fixed-header">
+        <div class="logo">
+            <img src="images/logo.jpg" alt="Logo Isca Artesanal" class="logo-img">
+            <p>Feito à Mão, Peixe na Mão</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#loja">Loja</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Seção Loja -->
+    <section id="loja" class="loja">
+        <h2 class="animate-slide-in">Compre Nossas Iscas Artesanais</h2>
+        <div class="capa-loja">
+            <img src="images/produtos.jpg" alt="Imagem de Produtos Isca Artesanal" class="capa-img">
+            <div class="capa-overlay animate-fade-in">
+                <p>Escolha as melhores iscas para sua próxima pescaria!</p>
+            </div>
+        </div>
+        <div class="produtos">
+            <div class="produto animate-slide-up">
+                <img src="https://images.unsplash.com/photo-1598031048465-cdecd39e0c02?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Isca de Milho">
+                <div class="produto-info">
+                    <h3>Isca de Milho</h3>
+                    <p>Feita com milho selecionado, ideal para tilápias e carpas. Peso: 120g.</p>
+                    <p class="preco">R$14,90</p>
+                    <a href="https://api.whatsapp.com/send?phone=553299938030&text=Oi!%20Quero%20comprar%20a%20Isca%20de%20Milho." class="btn-whatsapp pulse" target="_blank">Comprar</a>
+                </div>
+            </div>
+            <div class="produto animate-slide-up" style="animation-delay: 0.2s">
+                <img src="https://images.unsplash.com/photo-1603739399878-9db69896f546?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Ração com Furinho">
+                <div class="produto-info">
+                    <h3>Ração com Furinho</h3>
+                    <p>Pellets com furo central, perfeitos para anzóis. Peso: 120g.</p>
+                    <p class="preco">R$14,90</p>
+                    <a href="https://api.whatsapp.com/send?phone=553299938030&text=Oi!%20Quero%20comprar%20a%20Ração%20com%20Furinho." class="btn-whatsapp pulse" target="_blank">Comprar</a>
+                </div>
+            </div>
+            <div class="produto animate-slide-up" style="animation-delay: 0.4s">
+                <img src="https://images.unsplash.com/photo-1627739771639-7d3d14e1ab2f?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Kit 5 Iscas">
+                <div class="produto-info">
+                    <h3>Kit 5 Iscas (Diversos Sabores)</h3>
+                    <p>Kit com 5 sabores: Milho, Ração, Soja, Camarão e Banana. Peso: 600g.</p>
+                    <p class="preco">R$69,90</p>
+                    <a href="https://api.whatsapp.com/send?phone=553299938030&text=Oi!%20Quero%20comprar%20o%20Kit%205%20Iscas." class="btn-whatsapp pulse" target="_blank">Comprar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Blog Revisada -->
+    <section id="blog" class="blog">
+        <h2 class="animate-slide-in">Blog da Pesca</h2>
+        <div class="artigos">
+            <div class="artigo animate-slide-up">
+                <img src="https://images.unsplash.com/photo-1592355731519-4d85b14f1697?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="As 5 Melhores Iscas">
+                <div class="artigo-content">
+                    <h3>As 5 Melhores Iscas Artesanais para sua Pescaria</h3>
+                    <p>Quer transformar sua pesca em um sucesso? Confira as melhores iscas artesanais que todo pescador precisa conhecer!</p>
+                    <a href="#artigo-completo" class="leia-mais">Leia Mais</a>
+                </div>
+            </div>
+            <div class="artigo animate-slide-up" style="animation-delay: 0.2s">
+                <img src="https://images.unsplash.com/photo-1596547792237-8d78b5631c80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Escolha de Iscas">
+                <div class="artigo-content">
+                    <h3>Escolha a Isca Certa para Seu Peixe</h3>
+                    <p>Pacus gostam de milho, enquanto traíras preferem iscas vivas. Use massas leves em lagos e pesadas em rios.</p>
+                    <a href="#" class="leia-mais">Leia Mais</a>
+                </div>
+            </div>
+            <div class="artigo animate-slide-up" style="animation-delay: 0.4s">
+                <img src="https://images.unsplash.com/photo-1530534764731-869e355e27db?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Técnicas de Pesca">
+                <div class="artigo-content">
+                    <h3>Técnicas Rápidas com Iscas Artificiais</h3>
+                    <p>Use "stop-and-go" para predadores: arremesse, recolha e pause. Cores brilhantes em dias claros, escuras em nublados.</p>
+                    <a href="#" class="leia-mais">Leia Mais</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Artigo Completo -->
+        <div id="artigo-completo" class="artigo-content" style="max-width: 800px; margin: 40px auto; text-align: left;">
+            <h3>As 5 Melhores Iscas Artesanais para sua Pescaria</h3>
+            <p>A pesca é uma paixão que exige paciência, técnica e, claro, a isca perfeita. As iscas artesanais têm um diferencial especial: feitas à mão, elas combinam ingredientes naturais e criatividade para atrair peixes de forma única. Confira nossa lista com as 5 melhores iscas artesanais que vão elevar sua próxima pescaria a outro nível:</p>
+            <ol>
+                <li><strong>Isca de Milho Doce</strong><br>
+                    Uma receita simples, mas poderosa: milho fresco macerado com um toque de mel ou açúcar mascavo. Deixe fermentar por 24 horas para liberar um aroma doce que tilápias e carpas não resistem. Perfeita para pesqueiros e lagos tranquilos.</li>
+                <li><strong>Ração com Furinho</strong><br>
+                    Pellets de ração misturados com essência de camarão ou alho, perfurados para facilitar o uso no anzol. Essa isca é um sucesso entre tambaquis e pacus, especialmente em águas mornas. Prática e eficiente!</li>
+                <li><strong>Massa de Soja e Queijo</strong><br>
+                    Combine farinha de soja, queijo ralado e um pouco de água até formar uma massa firme. Ideal para piabanhas e piaus em rios de correnteza média, essa isca tem um aroma marcante que se espalha na água.</li>
+                <li><strong>Camarão Seco Moído</strong><br>
+                    Triture camarão seco e misture com farinha de trigo e um toque de alho em pó. Essa isca é um imã para predadores como traíras e tucunarés, graças ao cheiro forte que viaja longas distâncias na água.</li>
+                <li><strong>Banana Caramelizada</strong><br>
+                    Amasse uma banana madura com açúcar caramelizado e adicione uma pitada de essência de baunilha. O resultado é uma pasta doce que os pacus adoram, especialmente em águas calmas e em dias quentes.</li>
+            </ol>
+            <p><strong>Dica de Ouro:</strong> Ajuste a consistência da isca ao tipo de pesca. Para rios com correnteza, prefira massas mais firmes; em lagos, iscas leves e aromáticas fazem a diferença. Experimente essas receitas, adapte ao seu estilo e prepare-se para fisgar grandes troféus!</p>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer id="contato">
+        <p>© 2025 Isca Artesanal - Feito à Mão, Peixe na Mão</p>
+        <p>Contato: <a href="https://api.whatsapp.com/send?phone=553299938030" target="_blank">+55 32 9993-8030 (WhatsApp)</a></p>
+        <div class="social-icons">
+            <a href="https://api.whatsapp.com/send?phone=553299938030" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.74.45 3.36 1.23 4.78L2 22l5.22-1.23A9.96 9.96 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm3.64 14.36c-.2.58-.88.96-1.46.76-.58-.2-3.36-1.64-3.88-1.84-.52-.2-.92-.3-1.3.28-.38.58-1.5 1.84-1.84 2.22-.34.38-.7.42-1.28.22-.58-.2-2.42-.74-3.36-2.42-.74-1.34-.12-2.06.28-2.64.4-.58.6-.96 1.18-1.16.58-.2 1.16-.1 1.54.2.38.3 1.5 1.46 1.5 1.46s.26.58-.1 1.16c-.36.58-.68.96-.88 1.34z" fill="#D2B48C"/></svg>
+            </a>
+            <a href="#" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 17h-2v-6h-2v6H7v-7h2v-2c0-2.2 1.8-4 4-4h2v2h-2c-1.1 0-2 .9-2 2v2h4l-.5 3z" fill="#D2B48C"/></svg>
+            </a>
+            <a href="#" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 7h-2.5c.83 0 1.5.67 1.5 1.5v3c0 .83-.67 1.5-1.5 1.5H9v-6h2v-2c0-1.1.9-2 2-2h2v2z" fill="#D2B48C"/></svg>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Botão Fixo de WhatsApp -->
+    <a href="https://api.whatsapp.com/send?phone=553299938030" class="whatsapp-fixed" target="_blank">
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.74.45 3.36 1.23 4.78L2 22l5.22-1.23A9.96 9.96 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm3.64 14.36c-.2.58-.88.96-1.46.76-.58-.2-3.36-1.64-3.88-1.84-.52-.2-.92-.3-1.3.28-.38.58-1.5 1.84-1.84 2.22-.34.38-.7.42-1.28.22-.58-.2-2.42-.74-3.36-2.42-.74-1.34-.12-2.06.28-2.64.4-.58.6-.96 1.18-1.16.58-.2 1.16-.1 1.54.2.38.3 1.5 1.46 1.5 1.46s.26.58-.1 1.16c-.36.58-.68.96-.88 1.34z" fill="#FFF"/></svg>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-slide-up, .animate-slide-in, .animate-fade-in').forEach(element => {
+            observer.observe(element);
+        });
+
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.fixed-header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+</html>
